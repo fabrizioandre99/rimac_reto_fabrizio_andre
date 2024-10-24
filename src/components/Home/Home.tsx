@@ -69,7 +69,7 @@ const Home: React.FC = () => {
   return (
     <main className="home flex justify-center items-center relative overflow-hidden">
       <div className="container max-w-7xl mx-auto px-6 md:px-12 relative z-10 md:mb-6">
-        <div className="home__content flex flex-col lg:flex-row justify-between items-center lg:items-start lg:px-24">
+        <div className="home__content flex flex-col lg:flex-row justify-between items-center lg:items-start lg:px-24 pt-8 pb-14 md:pt-0 md:pb-0 gap-8">
           <div className="home__image hidden lg:block md:flex-shrink-0">
             <img
               src={familyImage}
@@ -78,12 +78,26 @@ const Home: React.FC = () => {
             />
           </div>
           <div className="home__form-container">
-            <div className="home__tag mb-4">
-              Seguro Salud Flexible
+            <div className="flex justify-between items-center lg:justify-start lg:items-start gap-[10px] lg:gap-0">
+              <div>
+                <div className="home__tag mb-4">
+                  Seguro Salud Flexible
+                </div>
+                <h1 className="home__title text-4xl font-bold mb-4 text-black">
+                  Creado para ti<span className="block lg:hidden"> y tu familia</span>
+                  <span className="hidden lg:inline"> y tu<br />familia</span>
+                </h1>
+              </div>
+              <div>
+                <img
+                  src={familyImage}
+                  alt="Family"
+                  className="rounded-lg w-40 h-auto block lg:hidden"
+                />
+              </div>
             </div>
-            <h1 className="home__title text-4xl font-bold mb-4 text-black">
-              Creado para ti y tu <br /> familia
-            </h1>
+
+            <div className="w-full border-t border-[#CCD1EE] my-6  block lg:hidden"></div>
 
             <p className="home__description text-black font-semibold mb-6">
               Tú eliges cuánto pagar. Ingresa tus datos, cotiza y <br /> recibe nuestra asesoría. 100% online.

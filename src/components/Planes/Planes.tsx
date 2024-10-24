@@ -136,7 +136,7 @@ const Planes: React.FC = () => {
     return (
         <div>
             {isMobile ? (
-                <div className="flex items-center w-full py-2 px-4 bg-[#EDEFFC] mb-8">
+                <div className="flex items-center w-full py-2 px-4 mb-8 border-b border-[#CCD1EE]">
                     {isResumen && (
                         <button className="flex items-center justify-center text-blue-600 mr-4" onClick={handleBack}>
                             <img src={ICON_VOLVER} alt="Volver" className="w-6 h-6" />
@@ -150,6 +150,7 @@ const Planes: React.FC = () => {
                         ></div>
                     </div>
                 </div>
+
 
             ) : (
                 <div className="flex items-center justify-center w-full py-4 bg-[#EDEFFC] mb-8">
@@ -188,13 +189,20 @@ const Planes: React.FC = () => {
                         </nav>
                     )}
 
-                    <h1 className="text-4xl font-bold text-black mb-4">Resumen del seguro</h1>
+                    <h1 className="text-3xl md:text-4xl font-bold text-black mt-7 mb-8 text-center md:text-left">
+                        Resumen del seguro
+                    </h1>
+
                     <div className="shadow-card p-6 rounded-lg shadow-md mt-4 bg-white border-b-2 border-[#D7DBF5]">
                         <p className="text-sm font-semibold mb-2">Precios calculados para:</p>
+
                         <div className="flex items-center mb-4">
                             <img src={ICON_FAMILY} alt="Volver" className="w-6 h-6 mr-2" />
                             <span className="text-2xl font-bold mr-4">{user ? `${user.name} ${user.lastName}` : "Usuario"}</span>
                         </div>
+
+                        <div className="w-full border-t my-3 border-[#CCD1EE]"></div>
+
                         <div className="mb-4">
                             <p className="text-sm font-semibold">Responsable de pago</p>
                             <p className="text-sm">DNI: {user?.dni || 444888888}</p>
@@ -212,15 +220,20 @@ const Planes: React.FC = () => {
             {!isResumen && (
                 <div className="container max-w-4xl mx-auto px-6 relative z-10 pb-14">
                     <div className="md:text-center mb-10">
-                        <h1 className="text-4xl font-bold text-black pt-4">
-                            {user ? `${user.name}, ¿Para quién deseas` : "¿Para quién deseas"}
-                            <br />
-                            cotizar?
+                        <h1 className="text-3xl md:text-4xl font-bold text-black md:pt-4">
+                            {user ? `${user.name}, ¿Para quién deseas` : "¿Para quién deseas"}{" "}
+                            <span className="md:hidden">cotizar?</span>
+                            <span className="hidden md:inline">
+                                <br />
+                                cotizar?
+                            </span>
                         </h1>
-                        <p className="text-gray-500 mb-8 text-black">
+                        <p className="text-gray-500 mb-8 text-black mt-4">
                             Selecciona la opción que se ajuste más a tus necesidades.
                         </p>
                     </div>
+
+
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 md:mx-[180px]">
                         <div
@@ -291,7 +304,7 @@ const Planes: React.FC = () => {
                                                         </span>
                                                     )}
                                                 </div>
-                                                <h3 className="text-xl font-semibold flex justify-between items-center">
+                                                <h3 className="text-xl font-bold flex justify-between items-center">
                                                     {plan.name}
                                                     {getIconForPlan(plan.name) && (
                                                         <img
@@ -305,7 +318,9 @@ const Planes: React.FC = () => {
                                                 {selectedOption === "paraAlguienMas" && (
                                                     <p className="text-sm text-gray-400 line-through">{`$${plan.price} antes`}</p>
                                                 )}
-                                                <p className="text-2xl font-bold mb-4">{`$${selectedOption === "paraAlguienMas" ? (plan.price * 0.95).toFixed(2) : plan.price} al mes`}</p>
+                                                <p className="text-2xl font-bold">{`$${selectedOption === "paraAlguienMas" ? (plan.price * 0.95).toFixed(2) : plan.price} al mes`}</p>
+                                                <div className="w-full border-t my-3 border-[#CCD1EE]"></div>
+
                                                 <ul className="flex flex-col gap-2 mb-4 mt-2">
                                                     {plan.description.map((item, idx) => (
                                                         <li key={idx} className="text-sm text-gray-700 leading-6 mb-2 before:content-['•'] before:mr-2 before:text-black before:font-bold">
@@ -326,20 +341,29 @@ const Planes: React.FC = () => {
                             </div>
                             {/* Paginación en modo móvil */}
                             {isMobile && selectedOption && (
-                                <div className="flex justify-center mt-4">
-                                    <button onClick={handlePreviousPlan} disabled={currentPlanIndex === 0}>
+                                <div className="flex justify-center mt-4 items-center">
+                                    <button
+                                        onClick={handlePreviousPlan}
+                                        disabled={currentPlanIndex === 0}
+                                        className={`transition ${currentPlanIndex === 0 ? 'grayscale cursor-not-allowed' : ''}`}
+                                    >
                                         <img src={ICON_VOLVER} alt="Volver" className="w-6 h-6" />
                                     </button>
                                     <span className="mx-2">{currentPlanIndex + 1} / {getFilteredPlans().length}</span>
-                                    <button onClick={handleNextPlan} disabled={currentPlanIndex === getFilteredPlans().length - 1}>
+                                    <button
+                                        onClick={handleNextPlan}
+                                        disabled={currentPlanIndex === getFilteredPlans().length - 1}
+                                        className="transition"
+                                    >
                                         <img src={ICON_NEXT} alt="Siguiente" className="w-6 h-6" />
                                     </button>
                                 </div>
                             )}
 
+
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {/* Cards para escritorio */}
                             {getFilteredPlans().map((plan, index) => (
                                 <div key={index} className="rounded-lg shadow-card flex flex-col justify-between h-full bg-white p-6">
@@ -376,7 +400,8 @@ const Planes: React.FC = () => {
                                     {selectedOption === "paraAlguienMas" && (
                                         <p className="text-sm text-gray-400 line-through">{`$${plan.price} antes`}</p>
                                     )}
-                                    <p className="text-2xl font-bold mb-4">{`$${selectedOption === "paraAlguienMas" ? (plan.price * 0.95).toFixed(2) : plan.price} al mes`}</p>
+                                    <p className="text-2xl font-bold">{`$${selectedOption === "paraAlguienMas" ? (plan.price * 0.95).toFixed(2) : plan.price} al mes`}</p>
+                                    <div className="w-full border-t my-3 border-[#CCD1EE]"></div>
                                     <ul className="flex flex-col gap-2 mb-4 mt-2">
                                         {plan.description.map((item, idx) => (
                                             <li key={idx} className="text-sm text-gray-700 leading-6 mb-2 before:content-['•'] before:mr-2 before:text-black before:font-bold">
