@@ -68,7 +68,7 @@ const Home: React.FC = () => {
 
   return (
     <main className="home flex justify-center items-center relative overflow-hidden">
-      <div className="container max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+      <div className="container max-w-7xl mx-auto px-6 md:px-12 relative z-10 md:mb-6">
         <div className="home__content flex flex-col lg:flex-row justify-between items-center lg:items-start lg:px-24">
           <div className="home__image hidden lg:block md:flex-shrink-0">
             <img

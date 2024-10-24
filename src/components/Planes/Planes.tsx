@@ -83,11 +83,11 @@ const Planes: React.FC = () => {
     const getFilteredPlans = (): Plan[] => {
         if (!user || !selectedOption) return [];
         const userAge = getUserAge(user.birthDay);
-        let filteredPlans = plans.filter(plan => userAge <= plan.age);
+        let filteredPlans = plans.filter((plan) => userAge <= plan.age);
         if (selectedOption === "paraAlguienMas") {
-            filteredPlans = filteredPlans.map(plan => ({
+            filteredPlans = filteredPlans.map((plan) => ({
                 ...plan,
-                price: parseFloat((plan.price * 0.95).toFixed(2))
+                price: parseFloat((plan.price * 0.95).toFixed(2)),
             }));
         }
         return filteredPlans;
@@ -175,8 +175,6 @@ const Planes: React.FC = () => {
                         <p className="text-normal">{selectedPlan.name}</p>
                         <p className="text-normal">Costo del Plan: S/ {selectedPlan.price} al mes</p>
                     </div>
-
-
                 </div>
             )}
 
@@ -202,7 +200,6 @@ const Planes: React.FC = () => {
                             <div>
                                 <div className="flex items-start mb-2">
                                     <img src={ICON_PARAMI} alt="Icon Para Mi" className="w-10 h-10 mr-2" />
-
                                 </div>
                                 <h2 className="text-xl font-semibold">Para mí</h2>
                                 <p className="text-sm text-gray-500">
@@ -221,7 +218,6 @@ const Planes: React.FC = () => {
                             <div>
                                 <div className="flex items-start mb-2">
                                     <img src={ICON_PARAALGUIENMAS} alt="Icon Para Alguien Mas" className="w-10 h-10 mr-2" />
-
                                 </div>
                                 <h2 className="text-xl font-semibold">Para alguien más</h2>
                                 <p className="text-sm text-gray-500">
@@ -234,57 +230,132 @@ const Planes: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {getFilteredPlans().map((plan, index) => (
-                            <div key={index} className="rounded-lg shadow-card flex flex-col justify-between h-full bg-white p-6">
-                                <div className="mb-2">
-                                    {plan.name === "Plan en Casa y Clínica" && (
-                                        <span
-                                            style={{
-                                                fontWeight: 700,
-                                                display: "inline-block",
-                                                padding: "7px 6px 5px 6px",
-                                                borderRadius: "4px",
-                                                fontSize: "14px",
-                                                lineHeight: "16px",
-                                                letterSpacing: ".4px",
-                                                background: "#7DF0BA"
-                                            }}
-                                            className="mb-2"
-                                        >
-                                            Plan recomendado
-                                        </span>
-                                    )}
-                                </div>
-                                <h3 className="text-xl font-semibold flex justify-between items-center">
-                                    {plan.name}
-                                    <img
-                                        src={`../../assets/images/icon-${plan.name.replace(/\s+/g, '').toLowerCase()}.svg`}
-                                        alt={`${plan.name} icon`}
-                                        className="w-6 h-6"
-                                    />
-                                </h3>
-                                <p className="text-xs uppercase text-gray-500">Costo del Plan</p>
-                                {selectedOption === "paraAlguienMas" && (
-                                    <p className="text-sm text-gray-400 line-through">{`$${plan.price} antes`}</p>
-                                )}
-                                <p className="text-2xl font-bold mb-4">{`$${(selectedOption === "paraAlguienMas" ? (plan.price * 0.95).toFixed(2) : plan.price)} al mes`}</p>
-                                <ul className="flex flex-col gap-2 mb-4 mt-2">
-                                    {plan.description.map((item, idx) => (
-                                        <li key={idx} className="text-sm text-gray-700 leading-6 mb-2 before:content-['•'] before:mr-2 before:text-black before:font-bold">
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                                <button
-                                    className="bg-[#FF1C44] text-white py-2 px-4 rounded-full w-full hover:bg-red-600 transition duration-300 mt-4"
-                                    onClick={() => handlePlanSelect(plan)}
+                    {isMobile ? (
+                        <div className="relative">
+                            <div className="overflow-hidden">
+                                <div
+                                    className="flex transition-transform duration-300"
+                                    style={{ transform: `translateX(-${currentPlanIndex * 100}%)` }}
                                 >
-                                    Seleccionar Plan
+                                    {getFilteredPlans().map((plan, index) => (
+                                        <div key={index} className="min-w-full p-4">
+                                            {/* Card del plan móvil */}
+                                            <div className="rounded-lg shadow-card flex flex-col justify-between h-full bg-white p-6">
+                                                <div className="mb-2">
+                                                    {plan.name === "Plan en Casa y Clínica" && (
+                                                        <span
+                                                            style={{
+                                                                fontWeight: 700,
+                                                                display: "inline-block",
+                                                                padding: "7px 6px 5px 6px",
+                                                                borderRadius: "4px",
+                                                                fontSize: "14px",
+                                                                lineHeight: "16px",
+                                                                letterSpacing: ".4px",
+                                                                background: "#7DF0BA",
+                                                            }}
+                                                            className="mb-2"
+                                                        >
+                                                            Plan recomendado
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <h3 className="text-xl font-semibold flex justify-between items-center">
+                                                    {plan.name}
+                                                    <img
+                                                        src={`../../assets/images/icon-${plan.name.replace(/\s+/g, '').toLowerCase()}.svg`}
+                                                        alt={`${plan.name} icon`}
+                                                        className="w-6 h-6"
+                                                    />
+                                                </h3>
+                                                <p className="text-xs uppercase text-gray-500">Costo del Plan</p>
+                                                {selectedOption === "paraAlguienMas" && (
+                                                    <p className="text-sm text-gray-400 line-through">{`$${plan.price} antes`}</p>
+                                                )}
+                                                <p className="text-2xl font-bold mb-4">{`$${selectedOption === "paraAlguienMas" ? (plan.price * 0.95).toFixed(2) : plan.price} al mes`}</p>
+                                                <ul className="flex flex-col gap-2 mb-4 mt-2">
+                                                    {plan.description.map((item, idx) => (
+                                                        <li key={idx} className="text-sm text-gray-700 leading-6 mb-2 before:content-['•'] before:mr-2 before:text-black before:font-bold">
+                                                            {item}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                                <button
+                                                    className="bg-[#FF1C44] text-white py-2 px-4 rounded-full w-full hover:bg-red-600 transition duration-300 mt-4"
+                                                    onClick={() => handlePlanSelect(plan)}
+                                                >
+                                                    Seleccionar Plan
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            {/* Paginación en modo móvil */}
+                            <div className="flex justify-center mt-4">
+                                <button onClick={handlePreviousPlan} disabled={currentPlanIndex === 0}>
+                                    {"<"}
+                                </button>
+                                <span className="mx-2">{currentPlanIndex + 1} / {getFilteredPlans().length}</span>
+                                <button onClick={handleNextPlan} disabled={currentPlanIndex === getFilteredPlans().length - 1}>
+                                    {">"}
                                 </button>
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {/* Cards para escritorio */}
+                            {getFilteredPlans().map((plan, index) => (
+                                <div key={index} className="rounded-lg shadow-card flex flex-col justify-between h-full bg-white p-6">
+                                    <div className="mb-2">
+                                        {plan.name === "Plan en Casa y Clínica" && (
+                                            <span
+                                                style={{
+                                                    fontWeight: 700,
+                                                    display: "inline-block",
+                                                    padding: "7px 6px 5px 6px",
+                                                    borderRadius: "4px",
+                                                    fontSize: "14px",
+                                                    lineHeight: "16px",
+                                                    letterSpacing: ".4px",
+                                                    background: "#7DF0BA",
+                                                }}
+                                                className="mb-2"
+                                            >
+                                                Plan recomendado
+                                            </span>
+                                        )}
+                                    </div>
+                                    <h3 className="text-xl font-semibold flex justify-between items-center">
+                                        {plan.name}
+                                        <img
+                                            src={`../../assets/images/icon-${plan.name.replace(/\s+/g, '').toLowerCase()}.svg`}
+                                            alt={`${plan.name} icon`}
+                                            className="w-6 h-6"
+                                        />
+                                    </h3>
+                                    <p className="text-xs uppercase text-gray-500">Costo del Plan</p>
+                                    {selectedOption === "paraAlguienMas" && (
+                                        <p className="text-sm text-gray-400 line-through">{`$${plan.price} antes`}</p>
+                                    )}
+                                    <p className="text-2xl font-bold mb-4">{`$${selectedOption === "paraAlguienMas" ? (plan.price * 0.95).toFixed(2) : plan.price} al mes`}</p>
+                                    <ul className="flex flex-col gap-2 mb-4 mt-2">
+                                        {plan.description.map((item, idx) => (
+                                            <li key={idx} className="text-sm text-gray-700 leading-6 mb-2 before:content-['•'] before:mr-2 before:text-black before:font-bold">
+                                                {item}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <button
+                                        className="bg-[#FF1C44] text-white py-2 px-4 rounded-full w-full hover:bg-red-600 transition duration-300 mt-4"
+                                        onClick={() => handlePlanSelect(plan)}
+                                    >
+                                        Seleccionar Plan
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             )}
         </div>
