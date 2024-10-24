@@ -205,9 +205,12 @@ const Planes: React.FC = () => {
 
                         <div className="mb-4">
                             <p className="text-sm font-semibold">Responsable de pago</p>
-                            <p className="text-sm">DNI: {user?.dni || 444888888}</p>
-                            <p className="text-sm">Celular: {user?.phone || 5130216147}</p>
+                            <p className="text-sm">
+                                {localStorage.getItem("documentType")}: {localStorage.getItem("documentNumber")}
+                            </p>
+                            <p className="text-sm">Celular: {localStorage.getItem("phoneNumber")}</p>
                         </div>
+
                         <div>
                             <p className="text-sm font-semibold">Plan elegido:</p>
                             <p className="text-normal">{selectedPlan.name}</p>

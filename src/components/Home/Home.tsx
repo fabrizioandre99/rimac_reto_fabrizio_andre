@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import familyImage from '../../assets/images/img-family.png';
 import iconArrow from '../../assets/images/icon-arrow.svg';
 import "./Home.scss";
@@ -46,6 +47,7 @@ const Home: React.FC = () => {
       [name]: value,
     }));
   };
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,6 +63,12 @@ const Home: React.FC = () => {
     if (!isDocumentNumberValid || !isPhoneNumberValid) {
       return;
     }
+
+    localStorage.setItem("documentType", form.documentType);
+    localStorage.setItem("documentNumber", form.documentNumber);
+    localStorage.setItem("phoneNumber", form.phoneNumber);
+
+    navigate("/planes");
   };
 
   const openModal = () => setIsModalOpen(true);
@@ -119,7 +127,7 @@ const Home: React.FC = () => {
                       >
                         <option value="DNI">DNI</option>
                         <option value="CE">CE</option>
-                        <option value="Passport">Pasaporte</option>
+                        <option value="Pasaporte">Pasaporte</option>
                       </select>
                       <img
                         src={iconArrow}
