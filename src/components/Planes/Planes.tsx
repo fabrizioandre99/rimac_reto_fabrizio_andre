@@ -7,6 +7,8 @@ import ICON_VOLVER from "../../assets/images/icon-volver.svg";
 import ICON_PARAMI from "../../assets/images/icon-parami.svg";
 import ICON_PARAALGUIENMAS from "../../assets/images/icon-paraalquienmas.svg";
 import ICON_CHECK from "../../assets/images/icon-check.svg";
+import ICON_PLAN_CASA from "../../assets/images/icon-plancasa.svg";
+import ICON_PLAN_CLINICA from "../../assets/images/icon-planclinica.svg";
 
 interface Plan {
     name: string;
@@ -117,6 +119,16 @@ const Planes: React.FC = () => {
             setCurrentPlanIndex(currentPlanIndex - 1);
         }
     };
+
+    const getIconForPlan = (planName: string): string | undefined => {
+        if (planName === "Plan en Casa y Clínica") {
+            return ICON_PLAN_CLINICA;
+        } else {
+            return ICON_PLAN_CASA;
+        }
+
+    };
+
 
     return (
         <div>
@@ -262,11 +274,13 @@ const Planes: React.FC = () => {
                                                 </div>
                                                 <h3 className="text-xl font-semibold flex justify-between items-center">
                                                     {plan.name}
-                                                    <img
-                                                        src={`../../assets/images/icon-${plan.name.replace(/\s+/g, '').toLowerCase()}.svg`}
-                                                        alt={`${plan.name} icon`}
-                                                        className="w-6 h-6"
-                                                    />
+                                                    {getIconForPlan(plan.name) && (
+                                                        <img
+                                                            src={getIconForPlan(plan.name)}
+                                                            alt={`${plan.name} icon`}
+                                                            className="w-10 h-10"
+                                                        />
+                                                    )}
                                                 </h3>
                                                 <p className="text-xs uppercase text-gray-500">Costo del Plan</p>
                                                 {selectedOption === "paraAlguienMas" && (
@@ -328,11 +342,13 @@ const Planes: React.FC = () => {
                                     </div>
                                     <h3 className="text-xl font-semibold flex justify-between items-center">
                                         {plan.name}
-                                        <img
-                                            src={`../../assets/images/icon-${plan.name.replace(/\s+/g, '').toLowerCase()}.svg`}
-                                            alt={`${plan.name} icon`}
-                                            className="w-6 h-6"
-                                        />
+                                        {getIconForPlan(plan.name) && (
+                                            <img
+                                                src={getIconForPlan(plan.name)}
+                                                alt={`${plan.name} icon`}
+                                                className="w-10 h-10"
+                                            />
+                                        )}
                                     </h3>
                                     <p className="text-xs uppercase text-gray-500">Costo del Plan</p>
                                     {selectedOption === "paraAlguienMas" && (
