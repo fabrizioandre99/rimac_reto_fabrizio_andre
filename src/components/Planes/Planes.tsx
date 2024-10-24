@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Planes.scss";
-
-// Importación de imágenes como variables
 import ICON_VOLVER from "../../assets/images/icon-volver.svg";
+import ICON_NEXT from "../../assets/images/icon-next.svg";
 import ICON_PARAMI from "../../assets/images/icon-parami.svg";
 import ICON_PARAALGUIENMAS from "../../assets/images/icon-paraalquienmas.svg";
 import ICON_CHECK from "../../assets/images/icon-check.svg";
 import ICON_PLAN_CASA from "../../assets/images/icon-plancasa.svg";
 import ICON_PLAN_CLINICA from "../../assets/images/icon-planclinica.svg";
+import ICON_FAMILY from "../../assets/images/icon-family.svg";
+
 
 interface Plan {
     name: string;
@@ -21,6 +22,8 @@ interface User {
     name: string;
     lastName: string;
     birthDay: string;
+    dni: string;
+    phone: string;
 }
 
 const Planes: React.FC = () => {
@@ -134,17 +137,20 @@ const Planes: React.FC = () => {
         <div>
             {isMobile ? (
                 <div className="flex items-center w-full py-2 px-4 bg-[#EDEFFC] mb-8">
-                    <button className="flex items-center justify-center text-blue-600 mr-4" onClick={handleBack}>
-                        <img src={ICON_VOLVER} alt="Volver" className="w-6 h-6" />
-                    </button>
+                    {isResumen && (
+                        <button className="flex items-center justify-center text-blue-600 mr-4" onClick={handleBack}>
+                            <img src={ICON_VOLVER} alt="Volver" className="w-6 h-6" />
+                        </button>
+                    )}
                     <span className="text-black font-semibold">PASO {isResumen ? 2 : 1} DE 2</span>
                     <div className="flex-grow mx-4 h-2 bg-[#E0E5FF] rounded-full relative">
                         <div
                             className="absolute top-0 left-0 h-2 bg-[#4F4FFF] rounded-full"
-                            style={{ width: isResumen ? "50%" : "25%" }}
+                            style={{ width: isResumen ? "100%" : "50%" }}
                         ></div>
                     </div>
                 </div>
+
             ) : (
                 <div className="flex items-center justify-center w-full py-4 bg-[#EDEFFC] mb-8">
                     <div className="flex items-center">
@@ -173,26 +179,39 @@ const Planes: React.FC = () => {
 
             {isResumen && selectedPlan && (
                 <div className="container max-w-7xl mx-auto px-6 md:px-12 mt-8">
-                    <nav className="flex items-center justify-between mb-4">
-                        <button className="text-blue-600 flex items-center" onClick={handleBack}>
-                            <img src={ICON_VOLVER} alt="Volver" className="w-6 h-6 mr-2" />
-                            Volver
-                        </button>
-                    </nav>
+                    {!isMobile && (
+                        <nav className="flex items-center justify-between mb-4">
+                            <button className="text-blue-600 flex items-center" onClick={handleBack}>
+                                <img src={ICON_VOLVER} alt="Volver" className="w-6 h-6 mr-2" />
+                                Volver
+                            </button>
+                        </nav>
+                    )}
+
                     <h1 className="text-4xl font-bold text-black mb-4">Resumen del seguro</h1>
-                    <div className="shadow-card p-4 rounded-lg shadow-md mt-4 bg-white border-b-2 border-[#D7DBF5]">
-                        <p className="text-sm font-semibold">Precios calculados para:</p>
-                        <p className="text-2xl font-bold mb-4">{user ? `${user.name} ${user.lastName}` : "Usuario"}</p>
-                        <p className="font-semibold">Plan elegido:</p>
-                        <p className="text-normal">{selectedPlan.name}</p>
-                        <p className="text-normal">Costo del Plan: S/ {selectedPlan.price} al mes</p>
+                    <div className="shadow-card p-6 rounded-lg shadow-md mt-4 bg-white border-b-2 border-[#D7DBF5]">
+                        <p className="text-sm font-semibold mb-2">Precios calculados para:</p>
+                        <div className="flex items-center mb-4">
+                            <img src={ICON_FAMILY} alt="Volver" className="w-6 h-6 mr-2" />
+                            <span className="text-2xl font-bold mr-4">{user ? `${user.name} ${user.lastName}` : "Usuario"}</span>
+                        </div>
+                        <div className="mb-4">
+                            <p className="text-sm font-semibold">Responsable de pago</p>
+                            <p className="text-sm">DNI: {user?.dni || 444888888}</p>
+                            <p className="text-sm">Celular: {user?.phone || 5130216147}</p>
+                        </div>
+                        <div>
+                            <p className="text-sm font-semibold">Plan elegido:</p>
+                            <p className="text-normal">{selectedPlan.name}</p>
+                            <p className="text-normal">Costo del Plan: S/ {selectedPlan.price} al mes</p>
+                        </div>
                     </div>
                 </div>
             )}
 
             {!isResumen && (
                 <div className="container max-w-4xl mx-auto px-6 relative z-10 pb-14">
-                    <div className="text-center mb-10">
+                    <div className="md:text-center mb-10">
                         <h1 className="text-4xl font-bold text-black pt-4">
                             {user ? `${user.name}, ¿Para quién deseas` : "¿Para quién deseas"}
                             <br />
@@ -306,15 +325,18 @@ const Planes: React.FC = () => {
                                 </div>
                             </div>
                             {/* Paginación en modo móvil */}
-                            <div className="flex justify-center mt-4">
-                                <button onClick={handlePreviousPlan} disabled={currentPlanIndex === 0}>
-                                    {"<"}
-                                </button>
-                                <span className="mx-2">{currentPlanIndex + 1} / {getFilteredPlans().length}</span>
-                                <button onClick={handleNextPlan} disabled={currentPlanIndex === getFilteredPlans().length - 1}>
-                                    {">"}
-                                </button>
-                            </div>
+                            {isMobile && selectedOption && (
+                                <div className="flex justify-center mt-4">
+                                    <button onClick={handlePreviousPlan} disabled={currentPlanIndex === 0}>
+                                        <img src={ICON_VOLVER} alt="Volver" className="w-6 h-6" />
+                                    </button>
+                                    <span className="mx-2">{currentPlanIndex + 1} / {getFilteredPlans().length}</span>
+                                    <button onClick={handleNextPlan} disabled={currentPlanIndex === getFilteredPlans().length - 1}>
+                                        <img src={ICON_NEXT} alt="Siguiente" className="w-6 h-6" />
+                                    </button>
+                                </div>
+                            )}
+
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
