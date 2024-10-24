@@ -211,7 +211,7 @@ const Planes: React.FC = () => {
                         <div>
                             <p className="text-sm font-semibold">Plan elegido:</p>
                             <p className="text-normal">{selectedPlan.name}</p>
-                            <p className="text-normal">Costo del Plan: S/ {selectedPlan.price} al mes</p>
+                            <p className="text-normal">Costo del Plan: ${selectedPlan.price} al mes</p>
                         </div>
                     </div>
                 </div>

@@ -13,7 +13,6 @@ const Footer: React.FC = () => {
               className="footer__logo h-12 mx-auto md:mx-0"
             />
           </div>
-          {/* Línea blanca visible solo en móviles en el medio */}
           <div className="border-t border-white w-full md:hidden mb-4"></div>
           <div className="footer__right text-sm text-center md:text-left">
             © 2024 RIMAC Seguros y Reaseguros.

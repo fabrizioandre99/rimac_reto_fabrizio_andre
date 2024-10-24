@@ -25,7 +25,7 @@ const Home: React.FC = () => {
     phoneNumber: true,
   });
 
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para el modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -39,7 +39,7 @@ const Home: React.FC = () => {
 
   const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
-    const value = (e.currentTarget as HTMLInputElement).value.replace(/\D/g, ''); // Eliminar todo lo que no sea un dígito
+    const value = (e.currentTarget as HTMLInputElement).value.replace(/\D/g, '');
 
     setForm((prevForm) => ({
       ...prevForm,
