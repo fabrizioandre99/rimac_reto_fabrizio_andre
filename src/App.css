@@ -1,0 +1,10 @@
+.content-wrapper {
+  position: relative;
+  z-index: 10;
+}
+
+.Footer {
+  background-color: #fff;
+  padding: 2rem 0;
+  text-align: center;
+}
