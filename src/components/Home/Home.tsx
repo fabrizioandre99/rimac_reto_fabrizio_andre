@@ -133,7 +133,7 @@ const Home: React.FC = () => {
                       maxLength={8}
                       value={form.documentNumber}
                       onInput={handleInput}
-                      className={`flex-grow px-3 py-2 bg-transparent focus:outline-none text-black pt-6 border-l ${!isValid.documentNumber ? 'border-red-500' : 'border-[#5E6488]'}`}
+                      className={`flex-grow px-3 py-2 bg-transparent focus:outline-none text-black pt-6 ${!isValid.documentNumber ? 'border-l-2 border-red-500' : 'border-l border-[#5E6488]'}`}
                       inputMode="numeric"
                       pattern="[0-9]*"
                     />
